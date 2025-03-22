@@ -9,6 +9,7 @@ description = "Visual AI project for Toronto Hackathon 2025"
 readme = "README.md"
 authors = ["Ads Dawson"]
 classifiers = ["Programming Language :: Python :: 3.11"]
+packages = [{ include = "toronto_visual_ai_hackathon", from = "src" }]
 
 [tool.poetry.dependencies]
 fiftyone = ">=1.4.0"
