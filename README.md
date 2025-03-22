@@ -6,8 +6,11 @@ https://voxel51.com/computer-vision-events/visual-ai-hackathon-march-22-2025/
 - [Setup Instructions](#setup-instructions)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+  - [Running the Application](#running-the-application)
+  - [Docker Deployment](#docker-deployment)
   - [Development](#development)
 - [Project Structure](#project-structure)
+- [API Usage](#api-usage)
 - [Team Slides](#team-slides)
 - [References](#references)
 - [Dataset(s) sources](#datasets-sources)
@@ -16,31 +19,62 @@ https://voxel51.com/computer-vision-events/visual-ai-hackathon-march-22-2025/
 
 ### Prerequisites
 
-- Python 3.11 (strict requirement)
-- [Poetry](https://python-poetry.org/docs/#installation) for dependency management
+- Python 3.10+
+- A trained YOLO model checkpoint
 
 ### Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/toronto-visual-ai-hackathon-2025.git
+   git clone https://github.com/GangGreenTemperTatum/toronto-visual-ai-hackathon-2025.git
    cd toronto-visual-ai-hackathon-2025
    ```
 
-2. Install dependencies with Poetry:
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   pip install -e .
+   ```
+
+   For Poetry users:
    ```bash
    poetry install
    ```
 
-   For development dependencies:
-   ```bash
-   poetry install --with dev
+3. **Important**: Update the model path in `src/toronto_visual_ai_hackathon/__init__.py`:
+   ```python
+   MODEL_PATH = "/path/to/your/model.pt"  # Change this to your model checkpoint
    ```
 
-3. Activate the virtual environment:
+### Running the Application
+
+You can run the application in two ways:
+
+1. Using the `run.py` script:
    ```bash
-   poetry shell
+   python run.py
    ```
+
+2. Using the package directly:
+   ```bash
+   python -m toronto_visual_ai_hackathon
+   ```
+
+The API server will start at http://localhost:5000.
+
+### Docker Deployment
+
+1. Build the Docker image:
+   ```bash
+   docker build -t yolo-classifier .
+   ```
+
+2. Run the container with the models directory mounted:
+   ```bash
+   docker run -p 5000:5000 -v "$(pwd)/models:/app/models" yolo-classifier
+   ```
+
+   This ensures the model file is accessible inside the container.
 
 ### Development
 
@@ -51,19 +85,89 @@ https://voxel51.com/computer-vision-events/visual-ai-hackathon-march-22-2025/
 
 - Run tests:
   ```bash
-  poetry run pytest
+  # Option 1: Run directly
+  python tests/test_request.py --image path/to/test/image.jpg
+
+  # Option 2: Make executable and run
+  chmod +x tests/test_request.py
+  ./tests/test_request.py --image path/to/test/image.jpg
+
+  # Option 3: Run as module (if package structure is set up)
+  python -m tests.test_request --image path/to/test/image.jpg
   ```
 
 ## Project Structure
 
 ```
 toronto-visual-ai-hackathon-2025/
-├── data/                # Dataset files (not tracked by git)
+├── data/                # Data files (not tracked by git)
+├── models/              # Model checkpoints
+│   └── best.pt          # Your trained YOLO model
 ├── notebooks/           # Jupyter notebooks for exploration
+├── scripts/             # Utility scripts
 ├── src/                 # Source code
+│   └── toronto_visual_ai_hackathon/
+│       ├── __init__.py  # Main Flask application
+│       └── __main__.py  # Entry point for running as module
 ├── tests/               # Test files
-├── pyproject.toml       # Project configuration
+│   └── test_request.py  # Script to test the API
+├── run.py               # Script to run the application
+├── setup.py             # Package installation configuration
+├── requirements.txt     # Dependencies
+├── pyproject.toml       # Poetry configuration
+├── Dockerfile           # Docker configuration
 └── README.md            # This file
+```
+
+## API Usage
+
+The application provides a single endpoint for image classification or detection:
+
+**POST /predict**
+
+Accepts form data with an 'image' file and returns classification or detection results, depending on the model type.
+
+Example using curl:
+```bash
+curl -X POST -F "image=@/path/to/your/image.jpg" http://localhost:5000/predict
+```
+
+Example response for classification models:
+```json
+{
+  "success": true,
+  "model_type": "classify",
+  "predictions": [
+    {
+      "class": "good_quality",
+      "class_id": 0,
+      "confidence": 0.95,
+      "rank": 1
+    },
+    {
+      "class": "poor_quality",
+      "class_id": 1,
+      "confidence": 0.05,
+      "rank": 2
+    }
+  ]
+}
+```
+
+Example response for detection models:
+```json
+{
+  "success": true,
+  "model_type": "detect",
+  "predictions": [
+    {
+      "class": "face",
+      "class_id": 0,
+      "confidence": 0.95,
+      "bbox": [10, 20, 100, 200]
+    }
+  ]
+}
 ```
 
 ## Team Slides

@@ -1,0 +1,9 @@
+dataset/*
+data/*
+.git/*
+.venv/*
+__pycache__/*
+.mypy_cache/*
+*.pyc
+notebooks/*
+logs/*
