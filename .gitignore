@@ -151,4 +151,4 @@ tmp/
 # Datasets
 
 dataset/
-.arrow
+*.arrow
