@@ -78,6 +78,7 @@ toronto-visual-ai-hackathon-2025/
 - https://docs.voxel51.com/user_guide/using_datasets.html
 - https://github.com/jacobmarks/image-quality-issues
 - https://github.com/swheaton/fiftyone-media-anonymization-plugin
+- https://docs.voxel51.com/integrations/albumentations.html
 
 ## Dataset(s) sources
 
