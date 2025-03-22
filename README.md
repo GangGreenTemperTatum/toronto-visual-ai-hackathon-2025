@@ -129,7 +129,14 @@ Accepts form data with an 'image' file and returns classification or detection r
 
 Example using curl:
 ```bash
-curl -X POST -F "image=@/path/to/your/image.jpg" http://localhost:5000/predict
+# Option 1: Use absolute path
+curl -X POST -F "image=@/Users/path/to/image" http://localhost:5000/predict
+
+# Option 2: Use current directory path for a file in the same directory
+curl -X POST -F "image=@./test_image.jpg" http://localhost:5000/predict
+
+# Option 3: Expand tilde manually for Bash
+curl -X POST -F "image=@$HOME/path/to/image" http://localhost:5000/predict
 ```
 
 Example response for classification models:
