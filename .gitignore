@@ -147,3 +147,7 @@ log/
 .gitattributes
 temp/
 tmp/
+
+# Datasets
+
+dataset/
