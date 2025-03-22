@@ -82,6 +82,7 @@ toronto-visual-ai-hackathon-2025/
 
 ## Dataset(s) sources
 
+- Sample dataset used for hackathon [here](https://huggingface.co/datasets/GangGreenTemperTatum/lfw-sample-organized/tree/main)
 - https://paperswithcode.com/
 - https://www.perplexity.ai/
 - https://huggingface.co/datasets
