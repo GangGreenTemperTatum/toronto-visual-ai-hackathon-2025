@@ -15,6 +15,10 @@ https://voxel51.com/computer-vision-events/visual-ai-hackathon-march-22-2025/
 - [References](#references)
 - [Dataset(s) sources](#datasets-sources)
 
+<img src="./assets/toronto%20ai%20visual%20hackathon.jpg" alt="Demo screenshot 1" width="600">
+
+<img src="./assets/toronto%20ai%20visual%20hackathon%202.jpg" alt="Demo screenshot 2" width="600">
+
 ## Setup Instructions
 
 ### Prerequisites
